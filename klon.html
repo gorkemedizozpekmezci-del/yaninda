@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rhem Clone — Home Care Dashboard</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23334155'/%3E%3Cpath d='M10 22 20 12l10 10v8H10z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="clone">
+  <div id="top"></div>
+  <main class="wrap">
+    <div class="card" style="background:var(--warn-soft);border-color:#f3d3a6;margin-bottom:16px">
+      <b>Klon (85p):</b> Bu sayfa YC Fall 2026 şirketi <a href="https://www.ycombinator.com/companies/rhem-labs" target="_blank" rel="noopener">Rhem Labs</a>'in
+      "yaşlı ebeveynler için bağlantılı ev donanımı + veri platformu" fikrinin işlevsel bir klonudur. Gerçek sensörler yerine aynı veriyi üreten bir
+      <b>simülasyon</b> kullanılır. Orijinal ürün İngilizce olduğu için klon da İngilizcedir. Türkiye'ye uyarlanmış yenilikçi sürüm: <a href="index.html">Yanında</a>.
+    </div>
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+      <div><p class="eyebrow">Home care platform</p><h1>Mom's home, today</h1></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <label class="small muted" for="scenario">Scenario</label>
+        <select id="scenario" style="width:auto">
+          <option value="normal">Normal day</option>
+          <option value="nobreakfast">Missed breakfast</option>
+          <option value="fall">Possible fall (bathroom)</option>
+          <option value="wander">Night wandering</option>
+        </select>
+        <button class="btn" id="play">▶ Simulate a day (60 s)</button>
+      </div>
+    </div>
+
+    <div class="grid two">
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center"><h2>Rooms</h2><span class="pill brand" id="clock">--:--</span></div>
+        <div class="rooms" id="rooms"></div>
+        <h3 style="margin-top:18px">Activity by hour</h3>
+        <div class="timeline" id="timeline"></div>
+        <div class="hours" id="hours"></div>
+      </section>
+      <section class="card">
+        <h2>Alerts & daily summary</h2>
+        <div id="summary" class="kv" style="margin-bottom:12px"></div>
+        <ul class="feed" id="alerts"><li class="empty">Press "Simulate a day" to stream sensor data.</li></ul>
+      </section>
+    </div>
+  </main>
+  <footer class="footer">Rhem Labs clone · educational re-implementation with simulated sensors · not affiliated with Rhem Labs</footer>
+  <script src="js/store.js"></script>
+  <script src="js/klon.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yanında — Canlı demo</title>
+  <meta name="description" content="Yanında canlı demo: annenin telefonu ve aile paneli yan yana. Tek tıkla dolandırıcılık, deprem, düşme ve mesaj senaryoları.">
+  <meta name="theme-color" content="#0f5257">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%230f5257'/%3E%3Cpath d='M12 22c0-4.5 3.6-8 8-8s8 3.5 8 8' fill='none' stroke='%23f6c177' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="top"></div>
+  <main class="wrap wide">
+    <p class="eyebrow">Canlı demo</p>
+    <h1>Annenin telefonu ve senin panelin, yan yana</h1>
+    <p class="muted" style="max-width:70ch">İki ekran aynı veriyi paylaşır: soldakinde yapılan her şey sağdakinde anında görünür (ve tersi). Aşağıdaki senaryolara dokunun ya da ekranları elle kullanın.</p>
+
+    <section class="tour" aria-label="Demo senaryoları">
+      <button data-tour="demo"><span class="n">1</span><b>Örnek haftayı yükle</b><small>7 günlük gerçekçi veri: ruh hali, ilaçlar, aramalar.</small></button>
+      <button data-tour="scam"><span class="n">2</span><b>Dolandırıcı arıyor</b><small>"Savcıyım…" Kalkan %100 risk verir, aile anında görür.</small></button>
+      <button data-tour="quake"><span class="n">3</span><b>Deprem oldu</b><small>Annenin ekranında "İyi misiniz?" açılır, haritaya düşer.</small></button>
+      <button data-tour="msg"><span class="n">4</span><b>Mesaj gönder</b><small>Elif'in mesajı annenin ekranında büyük yazıyla çıkar.</small></button>
+      <button data-tour="fall"><span class="n">5</span><b>Düşme</b><small>30 sn geri sayım; cevap yoksa aileye acil uyarı.</small></button>
+      <button data-tour="reset" class="reset"><span class="n">↺</span><b>Sıfırla</b><small>Her şeyi temiz başlangıca döndür.</small></button>
+    </section>
+
+    <section class="stage">
+      <div>
+        <div class="device"><iframe id="f-parent" src="ebeveyn.html" title="Ebeveyn ekranı (annenin telefonu)"></iframe></div>
+        <p class="stage-label">👵 Annenin telefonu · <a href="ebeveyn.html" target="_blank" rel="noopener">ayrı aç ↗</a></p>
+      </div>
+      <div>
+        <div class="browser">
+          <div class="browser-bar"><i></i><i></i><i></i><span>yanında · aile paneli</span></div>
+          <iframe id="f-family" src="aile.html" title="Aile paneli"></iframe>
+        </div>
+        <p class="stage-label">👨‍👩‍👧 Senin panelin · <a href="aile.html" target="_blank" rel="noopener">ayrı aç ↗</a></p>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">Yanında · YZM301 Ödev 3 · Öğrenci prototipi · Veriler yalnızca bu tarayıcıda tutulur</footer>
+
+  <script src="js/store.js"></script>
+  <script>
+    document.getElementById('top').innerHTML = topbar('demo.html');
+    const parentWin = () => document.getElementById('f-parent').contentWindow;
+    const familyDoc = () => document.getElementById('f-family').contentDocument;
+    /* Yalnızca iframe'in içini kaydır (dış sayfa yerinde kalsın) */
+    const scrollFamilyTo = sel => { const el = familyDoc().querySelector(sel); if (el) document.getElementById('f-family').contentWindow.scrollTo({ top: el.getBoundingClientRect().top + document.getElementById('f-family').contentWindow.scrollY - 12, behavior: 'smooth' }); };
+    const TOUR = {
+      demo() { Store.demo(); toast('Örnek hafta yüklendi', 'ok'); },
+      scam() {
+        const w = parentWin();
+        w.document.querySelectorAll('.modal-bg').forEach(m => m.remove());
+        w.openShield();
+        w.document.querySelector('[data-ex="0"]').click();
+        scrollFamilyTo('#status');
+      },
+      quake() { familyDoc().getElementById('quake-sim').click(); scrollFamilyTo('#map'); },
+      msg() {
+        const f = Store.state.family[0];
+        Store.update(s => { s.messages.unshift({ id: uid(), t: Date.now(), from: f.id, text: 'Anneciğim bu akşam yemeğe geliyoruz, bir şey almamı ister misin? 💛', read: false, reply: null }); });
+        Store.log('msg', `${f.name} mesaj gönderdi.`, 'info');
+        parentWin().scrollTo({ top: 0, behavior: 'smooth' });
+        scrollFamilyTo('#msg-form');
+      },
+      fall() { parentWin().document.getElementById('fall-sim').click(); },
+      reset() { Store.reset(); toast('Sıfırlandı'); }
+    };
+    document.querySelectorAll('[data-tour]').forEach(b => b.addEventListener('click', () => TOUR[b.dataset.tour]()));
+  </script>
+</body>
+</html>

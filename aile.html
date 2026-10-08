@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yanında — Aile paneli</title>
+  <meta name="theme-color" content="#0f5257">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%230f5257'/%3E%3Cpath d='M12 22c0-4.5 3.6-8 8-8s8 3.5 8 8' fill='none' stroke='%23f6c177' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="top"></div>
+  <main class="wrap">
+    <div class="fam-head">
+      <div class="fam-who">
+        <span class="avatar xl" id="p-avatar">A</span>
+        <div><p class="eyebrow">Aile paneli</p><h1 id="title">Annem bugün nasıl?</h1><p class="muted" id="p-meta" style="margin:0"></p></div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost sm" id="notify-btn">🔔 Bildirimleri aç</button>
+        <button class="btn ghost sm" id="demo-btn">Örnek veri yükle</button>
+        <a class="btn sm" href="ebeveyn.html" target="_blank" rel="noopener">Ebeveyn ekranını aç ↗</a>
+      </div>
+    </div>
+
+    <section class="card status-card" id="status"></section>
+
+    <section class="kpis" id="kpis" aria-label="Haftalık özet"></section>
+
+    <div class="grid two" style="margin-top:16px">
+      <section class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><h2>Canlı akış</h2><span class="pill brand live-pill">● canlı</span></div>
+        <div class="filters" id="feed-filter" role="group" aria-label="Akış filtresi">
+          <button data-f="all" class="on">Tümü</button><button data-f="danger">🚨 Acil</button><button data-f="safety">🛡️ Güvenlik</button><button data-f="health">💊 Sağlık</button><button data-f="family">👪 Aile</button>
+        </div>
+        <ul class="feed" id="feed"></ul>
+      </section>
+
+      <div class="grid">
+        <section class="card">
+          <h2>💌 Mesaj gönder</h2>
+          <p class="muted small">Mesaj ebeveyn ekranında büyük yazıyla görünür ve istenirse sesli okunur. Tek dokunuşla cevap verebilir.</p>
+          <form id="msg-form">
+            <div style="display:flex;gap:8px;margin-bottom:8px"><select id="msg-from" aria-label="Gönderen" style="width:auto"></select><input id="msg-text" maxlength="160" placeholder="Örn: Akşam uğrayacağım 💛" autocomplete="off"></div>
+            <div class="quick" id="msg-quick">
+              <button type="button">Akşam uğrayacağım 💛</button><button type="button">İlacını almayı unutma 💊</button><button type="button">Seni çok seviyorum ❤️</button><button type="button">Müsait olunca beni ara 📞</button>
+            </div>
+            <button class="btn" style="margin-top:10px">Gönder</button>
+          </form>
+          <ul class="msgs" id="msg-list"></ul>
+        </section>
+        <section class="card">
+          <h2>💊 Bugünkü ilaçlar</h2>
+          <div id="meds"></div>
+        </section>
+      </div>
+    </div>
+
+    <section class="card" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;flex-wrap:wrap"><h2>📅 Son 7 gün</h2><span class="muted small">Ruh hali · "İyiyim" saati · ilaçlar · aile araması · iyi oluş puanı</span></div>
+      <div class="week" id="week"></div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>📞 Bu hafta kim arıyor?</h2>
+      <p class="muted small">Kardeşler arasında adil arama sırası. Arayan "Aradım" der, herkes görür.</p>
+      <div class="tablewrap"><table id="rota"></table></div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+        <div><h2>🌍 Deprem takibi</h2><p class="muted small" id="quake-note">Canlı veri: USGS · Türkiye ve çevresi · son 7 gün</p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn ghost sm" id="quake-refresh">Yenile</button><button class="btn sm" id="quake-sim">Deprem simüle et</button></div>
+      </div>
+      <div id="map" class="map" role="img" aria-label="Son depremler haritası"></div>
+      <p class="muted small map-legend"><span class="lg home"></span>Ebeveynin şehri <span class="lg zone"></span>200 km uyarı alanı <span class="lg q4"></span>M4+ <span class="lg q"></span>daha küçük</p>
+      <div class="tablewrap"><table id="quakes"><tr><td class="muted">Yükleniyor…</td></tr></table></div>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>⚙️ Ayarlar</h2>
+      <form id="settings" class="grid three">
+        <div class="field"><label for="s-name">Ebeveynin adı</label><input id="s-name" maxlength="20"></div>
+        <div class="field"><label for="s-title">Hitap</label><select id="s-title"><option>Hanım</option><option>Bey</option><option>Teyze</option><option>Amca</option></select></div>
+        <div class="field"><label for="s-city">Yaşadığı şehir</label><select id="s-city"></select></div>
+        <div class="field"><label for="s-deadline">"İyiyim" son saati</label><input id="s-deadline" type="time"></div>
+        <div class="field"><label for="s-safe">Aile parolası</label><input id="s-safe" maxlength="30" autocomplete="off"><small class="muted">Sesi taklit eden dolandırıcılara karşı. Yalnızca aile bilir.</small></div>
+        <div class="field"><label for="s-family">Aile üyeleri (virgülle)</label><input id="s-family" placeholder="Elif, Mert, Zeynep"></div>
+        <div class="field" style="grid-column:1/-1"><label for="s-meds">İlaçlar (her satıra "saat ad")</label><textarea id="s-meds" style="min-height:90px"></textarea></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn">Kaydet</button><button type="button" class="btn ghost" id="reset-btn">Her şeyi sıfırla</button></div>
+      </form>
+    </section>
+  </main>
+  <footer class="footer">Yanında · Veriler bu cihazda tutulur. İki pencerede (ebeveyn + aile) açınca canlı eşitlenir.</footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/deprem.js"></script>
+  <script src="js/hava.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="js/aile.js"></script>
+</body>
+</html>

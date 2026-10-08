@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Yanında — Ebeveyn ekranı</title>
+  <meta name="theme-color" content="#0f5257">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='19' fill='%230f5257'/%3E%3Cpath d='M12 22c0-4.5 3.6-8 8-8s8 3.5 8 8' fill='none' stroke='%23f6c177' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="senior">
+  <div id="top"></div>
+  <main class="wrap">
+    <section class="sky" id="sky">
+      <div class="sky-top">
+        <div><div class="clock" id="clock">--:--</div><p class="sky-date" id="date"></p></div>
+        <div class="weather" id="weather" aria-live="polite"><span class="w-em">⏳</span><span><b>--°</b><small>Hava yükleniyor</small></span></div>
+      </div>
+      <h1 id="greet">Günaydın</h1>
+      <p class="sky-tip" id="weather-tip">Bugün için önerim birazdan burada.</p>
+    </section>
+
+    <section class="today" id="today" aria-label="Bugünün durumu"></section>
+
+    <section id="msg-box" aria-live="polite"></section>
+
+    <div class="voice-bar">
+      <button class="mic" id="mic" aria-label="Sesli konuş">🎤</button>
+      <div style="flex:1;min-width:0">
+        <b id="voice-hint">Bana konuşun: "İyiyim", "İlacımı aldım", "Mesajı oku"</b>
+        <div class="muted small" id="voice-text">Mikrofona dokunun ve konuşun.</div>
+        <form id="type-form" class="small" style="display:flex;gap:8px;margin-top:8px">
+          <input id="type-input" placeholder="ya da buraya yazın…" aria-label="Komut yazın" autocomplete="off">
+          <button class="btn sm">Gönder</button>
+        </form>
+      </div>
+    </div>
+
+    <section class="tiles" aria-label="Ana işlemler">
+      <button class="tile ok" data-act="checkin"><span class="em">✓</span>İyiyim<small id="checkin-sub">Ailenize haber verin</small></button>
+      <button class="tile" data-act="meds"><span class="em">💊</span>İlaçlarım<small id="med-sub">Bugünkü ilaçlar</small></button>
+      <button class="tile" data-act="callreq"><span class="em">📞</span>Beni arasınlar<small id="call-sub">Bugün arayacak: —</small></button>
+      <button class="tile shield" data-act="shield"><span class="em">🛡️</span>Şüpheli arama<small>Dolandırıcılık kalkanı</small></button>
+      <button class="tile sos" data-act="help"><span class="em">🆘</span><span>Yardım<br><small>Ailenize acil haber + 112</small></span></button>
+    </section>
+
+    <section class="card tip-card" id="tip"></section>
+
+    <section class="card" style="margin-top:18px">
+      <h2>Ayarlar ve güvenlik</h2>
+      <div class="set-row">
+        <span><b>Yazı boyutu</b></span>
+        <div class="seg" role="group" aria-label="Yazı boyutu">
+          <button data-scale="0.9" aria-label="Küçük yazı">A</button><button data-scale="1" aria-label="Normal yazı">A</button><button data-scale="1.15" aria-label="Büyük yazı">A</button><button data-scale="1.3" aria-label="En büyük yazı">A</button>
+        </div>
+      </div>
+      <div class="set-row">
+        <span><b>Yüksek kontrast</b><br><small class="muted">Az görenler için siyah-beyaz</small></span>
+        <button class="switch" id="hc" role="switch" aria-checked="false" aria-label="Yüksek kontrast"><i></i></button>
+      </div>
+      <p class="muted small" style="margin-top:14px">Telefon cebinizdeyken düşerseniz, bu özellik açıksa ailenize otomatik haber gider.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn" id="fall-btn">🤸 Düşme algılamayı aç</button>
+        <button class="btn ghost" id="fall-sim">Düşme simülasyonu</button>
+        <a class="btn ghost" href="aile.html" target="_blank" rel="noopener">Aile panelini aç ↗</a>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">Yanında · Bu ekran büyük yazı ve sesli kullanım için tasarlandı.</footer>
+
+  <script src="js/store.js"></script>
+  <script src="js/kalkan.js"></script>
+  <script src="js/deprem.js"></script>
+  <script src="js/ses.js"></script>
+  <script src="js/hava.js"></script>
+  <script src="js/ebeveyn.js"></script>
+</body>
+</html>
