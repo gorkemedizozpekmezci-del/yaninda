@@ -14,6 +14,8 @@ Türkiye'deki yaşlı ebeveynler ve aileleri için yapay zekâ destekli bakım v
 
 </div>
 
+**🌐 Canlı site:** https://gorkemedizozpekmezci-del.github.io/yaninda/ · **▶ Canlı demo:** https://gorkemedizozpekmezci-del.github.io/yaninda/demo.html
+
 > **YZM301 · Ödev 3: "Yeni Deprem Üretmek".** Hacker News, Y Combinator ve RFS incelenerek 2026'nın "teknolojik deprem" ürünlerinden biri belirlendi. Ürünün **klonu** (85p) ve Türkiye'ye **yerelleştirilmiş, yenilikçi sürümü** (100p+) üretildi.
 
 ## 1. Araştırma: neden bu ürün?
